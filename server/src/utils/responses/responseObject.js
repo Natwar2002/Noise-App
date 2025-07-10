@@ -8,7 +8,7 @@ export const internalErrorResponse = (error) => {
 };
 
 export const customErrorResponse = (err) => {
-    if (!err.message && !err.explanation) {
+    if (!err.message || !err.explanation) {
         return internalErrorResponse(err)
     }
     return {

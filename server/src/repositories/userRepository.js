@@ -7,11 +7,13 @@ const userRepository = {
     signUpUser: async function (data) {
         const newUser = new User(data);
         await newUser.save();
-        return newUser
+        const userObj = newUser.toObject();
+        delete userObj.password;
+        return userObj;
     },
 
     getByUsername: async function (name) {
-        const user = await User.findOne({ username: name }).select('-password');
+        const user = await User.findOne({ username: name });
         return user;
     },
 }

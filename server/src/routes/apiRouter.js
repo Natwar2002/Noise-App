@@ -1,14 +1,8 @@
 import express from 'express';
+import v1Router from './version1/v1Router.js'
 
-const app = express();
+const router = express.Router();
 
-app.get('/ping', (req, res) => {
-    res.status(200).json({
-        message: "pong"
-    });
-});
+router.use('/v1', v1Router);
 
-app.listen(3000, async () => {
-    console.log("Server is running on http://localhost:3000");
-
-})
+export default router;

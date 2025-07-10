@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, 'First name is required']
         },
-        lasrName: {
+        lastName: {
             type: String,
             required: [true, 'Last name is required']
         },
@@ -36,16 +36,6 @@ const userSchema = new mongoose.Schema(
         },
         avatar: {
             type: String
-        },
-        isVerified: {
-            type: Boolean,
-            default: false,
-        },
-        verificationToken: {
-            type: String
-        },
-        verificationTokenExpiry: {
-            type: Date
         }
     },
     { timestamps: true }
