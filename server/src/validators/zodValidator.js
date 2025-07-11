@@ -1,3 +1,5 @@
+import { customErrorResponse } from "../utils/responses/responseObject.js";
+
 export const validate = (schema) => {
     return async (req, res, next) => {
         try {
@@ -6,7 +8,7 @@ export const validate = (schema) => {
         } catch (error) {
             let explanation = [];
             let errorMessage = '';
-            error.errors.forEach(key => {
+            error?.errors?.forEach(key => {
                 explanation.push(key.path[0] + ' ' + key.message);
                 errorMessage += ':' + key.path[0] + ' ' + key.message;
             });
