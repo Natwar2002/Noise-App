@@ -5,8 +5,14 @@ import { Server } from 'socket.io';
 import { createServer } from 'http';
 import messageHandler from './controllers/messageSocketController.js';
 import joinRoom from './controllers/chatSocketController.js';
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors({
+    origin: "*"
+}));
+
 const server = createServer(app);
 const io = new Server(server);
 

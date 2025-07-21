@@ -1,7 +1,7 @@
 export const internalErrorResponse = (error) => {
     return {
         success: false,
-        err: error,
+        error: error,
         data: {},
         message: "Internal Server Error",
     };

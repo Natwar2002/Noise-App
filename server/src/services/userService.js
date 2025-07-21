@@ -9,7 +9,7 @@ export async function signUpService(data) {
         const newUser = await userRepository.signUpUser(data);
         return newUser;
     } catch (error) {
-        console.log("Error in Sign up service: ", error);
+        console.log("Error in Sign up service: ", error.errors);
         if (error.name === "ValidationError") {
             throw new ValidationError(
                 {
