@@ -6,25 +6,21 @@ import bcrypt from 'bcrypt';
 
 export async function signUpService(data) {
     try {
+        const requiredFields = ['email', 'password', 'firstName', 'lastName', 'username'];
+        for (const field of requiredFields) {
+            if (!data[field]) {
+                throw new ClientError({
+                    explanation: "Invalid data sent from the client",
+                    message: `${field} is required`,
+                    status: 400
+                });
+            }
+        }
         const newUser = await userRepository.signUpUser(data);
         return newUser;
     } catch (error) {
-        console.log("Error in Sign up service: ", error.errors);
-        if (error.name === "ValidationError") {
-            throw new ValidationError(
-                {
-                    error: error.errors
-                },
-                error.message
-            );
-        }
-        if (error.name === 'MongoServerError' && error.code === 11000) {
-            throw new ValidationError({
-                error: ["A user with same email or username alread exist"]
-            },
-                "A user with same email or username alread exist"
-            )
-        }
+        console.log("Error in Sign up service: ", error);
+        throw error;
     }
 }
 

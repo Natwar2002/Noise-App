@@ -3,12 +3,12 @@ export const internalErrorResponse = (error) => {
         success: false,
         error: error,
         data: {},
-        message: "Internal Server Error",
+        message: error.message,
     };
 };
 
 export const customErrorResponse = (err) => {
-    if (!err.message || !err.explanation) {
+    if (!err.message && !err.explanation) {
         return internalErrorResponse(err)
     }
     return {

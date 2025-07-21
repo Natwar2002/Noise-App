@@ -3,8 +3,8 @@ class ClientError extends Error {
         super();
         this.name = 'ClientError';
         this.message = error?.message;
-        this.explantion = error?.explantion;
-        this.status = error?.stauts;
+        this.explanation = error?.explanation;
+        this.status = error?.status;
     }
 }
 

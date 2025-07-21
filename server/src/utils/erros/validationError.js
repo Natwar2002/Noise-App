@@ -2,13 +2,14 @@ class ValidationError extends Error {
     constructor(error, message) {
         super(message);
         this.name = 'ValidationError';
-        let explantion = [];
+        let explanation = [];
         Object.keys(error.error).forEach(key => {
-            explantion.push(error.error[key]);
+            console.log("Eror key: ", error.error[key]);
+            explanation?.push(error.error[key]);
         });
-        this.explantion = explantion;
+        this.explanation = explanation;
         this.message = message;
-        this.status = error?.stauts;
+        this.status = 400;
     }
 }
 

@@ -6,6 +6,7 @@ export const signupController = async (req, res) => {
         const response = await signUpService(req.body);
         return res.status(201).json(successResponse(response, "User signed up successfully"));
     } catch (error) {
+        console.log("Error in signupController: ", error);
         if (error.status) {
             return res.status(error.status).json(customErrorResponse(error));
         }
