@@ -18,18 +18,17 @@ export default function SignupContainer() {
     const { isPending, isSuccess, error, signupMutation } = useSignup();
 
     async function handleSignup() {
-        console.log("Signup Form Data:", signupForm);
-        // if (!signupForm.username || !signupForm.password || !signupForm.confirmPassword || !signupForm.firstName || !signupForm.lastName || !signupForm.email) {
-        //     setValidationErrors({
-        //         firstName: !signupForm.firstName ? "First Name is required" : "",
-        //         lastName: !signupForm.lastName ? "Last Name is required" : "",
-        //         email: !signupForm.email ? "Email is required" : "",
-        //         username: !signupForm.username ? "Username is required" : "",
-        //         password: !signupForm.password ? "Password is required" : "",
-        //         confirmPassword: !signupForm.confirmPassword ? "Confirm Password is required" : ""
-        //     });
-        //     return;
-        // }
+        if (!signupForm.username || !signupForm.password || !signupForm.confirmPassword || !signupForm.firstName || !signupForm.lastName || !signupForm.email) {
+            setValidationErrors({
+                firstName: !signupForm.firstName ? "First Name is required" : "",
+                lastName: !signupForm.lastName ? "Last Name is required" : "",
+                email: !signupForm.email ? "Email is required" : "",
+                username: !signupForm.username ? "Username is required" : "",
+                password: !signupForm.password ? "Password is required" : "",
+                confirmPassword: !signupForm.confirmPassword ? "Confirm Password is required" : ""
+            });
+            return;
+        }
         if (signupForm.password !== signupForm.confirmPassword) {
             setValidationErrors({ confirmPassword: "Passwords do not match" });
             return;
@@ -48,7 +47,7 @@ export default function SignupContainer() {
     useEffect(() => {
         setTimeout(() => {
             if (isSuccess) {
-                navigate("/");
+                navigate("/signin");
             }
         }, 1000);
     }, [navigate, isSuccess]);

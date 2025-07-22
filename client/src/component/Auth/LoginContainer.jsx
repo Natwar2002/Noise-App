@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LoginCard from "./LoginCard";
 import { useNavigate } from "react-router-dom";
+import { useSignin } from '../../hooks/apis/useSignin';
 
 export default function LoginContainer() {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function LoginContainer() {
         password: ""
     });
     const [validationErrors, setValidationErrors] = useState(null);
+    const { isPending, isSuccess, error, signinMutation } = useSignin();
 
     async function handleLogin() {
         if( !loginForm.username || !loginForm.password) {
@@ -18,15 +20,22 @@ export default function LoginContainer() {
             });
             return;
         }
-        setValidationErrors(null)
+        setValidationErrors(null);
+        try {
+            await signinMutation(loginForm);
+        } catch (error) {
+            console.error("Login error:", error);
+            setValidationErrors({ general: "Login failed. Please try again." });    
+        }
     }
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            navigate("/");
-        }
-    }, [navigate]);
+        setTimeout(() => {
+            if (isSuccess) {
+                navigate("/");
+            }
+        }, 1000);
+    }, [navigate, isSuccess]);
 
     return (
         <LoginCard 
@@ -34,6 +43,9 @@ export default function LoginContainer() {
             setLoginForm={setLoginForm}
             validationErrors={validationErrors}
             handleLogin={handleLogin}
+            isPending={isPending}
+            isSuccess={isSuccess}
+            error={error}
         />
     );
 }
