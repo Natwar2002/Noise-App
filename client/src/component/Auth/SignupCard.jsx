@@ -3,7 +3,7 @@ import { Input } from '@heroui/input';
 import { Button } from '@heroui/button';
 import { IoShieldCheckmark } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-// import { LucideLoader, TriangleAlert } from 'lucide-react';
+import { LucideLoader, TriangleAlert } from 'lucide-react';
 
 export default function SignupCard({ signupForm, setSignupForm, validationErrors, handleSignup, isPending, error, isSuccess }) {  
   return (
@@ -15,23 +15,23 @@ export default function SignupCard({ signupForm, setSignupForm, validationErrors
           <div className="error-messages text-sm">
             {Object.values(validationErrors).map((error, index) => (
               error && <div key={index}>
-                {/* <TriangleAlert className='size-5' /> */}
+                <TriangleAlert className='size-5' />
                 <p className="text-red-700">{error}</p> 
               </div>
             ))}
           </div>
         )}
         {error && (
-          <div className='bg-destructive/15 px-4 py-2 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6'>
-            {/* <TriangleAlert className='size-5' /> */}
-            <p>{error.message}</p>
+          <div className='bg-red-600 px-4 py-2 rounded-md flex items-center gap-x-2 text-sm text-destructive my-3'>
+            <TriangleAlert className='size-5' />
+            <p>{error?.message}</p>
           </div>
         )}
         {isSuccess && (
           <div className='bg-green-200 px-4 py-2 rounded-md flex items-center gap-x-2 text-green-600 text-sm my-3'>
             <IoShieldCheckmark className='size-10' />
             <p>Successfully signed up, You will be redirected to the login page shortly</p>
-            {/* <LucideLoader className='animate-spin ml-2' /> */}
+            <LucideLoader className='animate-spin ml-1 size-10' />
           </div>
         )}
       </CardHeader>
