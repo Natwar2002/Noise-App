@@ -13,6 +13,7 @@ export default function LoginContainer() {
     const { isPending, isSuccess, error, signinMutation } = useSignin();
 
     async function handleLogin() {
+        console.log(loginForm);   
         if( !loginForm.username || !loginForm.password) {
             setValidationErrors({
                 username: !loginForm.username ? "Username is required" : "",
@@ -30,16 +31,18 @@ export default function LoginContainer() {
     }
 
     useEffect(() => {
-        setTimeout(() => {
-            if (isSuccess) {
-                navigate("/");
-            }
-        }, 1000);
+        let timer;
+        if (isSuccess) {
+            timer = setTimeout(() => {
+            navigate("/");
+            }, 1000);
+        }
+        return () => clearTimeout(timer);
     }, [navigate, isSuccess]);
 
     return (
         <LoginCard 
-            logingForm={loginForm}
+            loginForm={loginForm}
             setLoginForm={setLoginForm}
             validationErrors={validationErrors}
             handleLogin={handleLogin}

@@ -40,6 +40,7 @@ export default function LoginCard({ validationErrors, error, handleLogin, isPend
             size="sm"
             label="Username"
             disabled={isPending}
+            value={loginForm.username}
             onChange={(e) => setLoginForm({ ...loginForm, username: e.target.value })}
           />
           <Input 
@@ -48,6 +49,7 @@ export default function LoginCard({ validationErrors, error, handleLogin, isPend
             isRequired
             size="sm"
             type="password"
+            value={loginForm.password}
             disabled={isPending}
             onChange={(e) => setLoginForm({ ...loginForm, password: e.target.value })}
           />
@@ -58,7 +60,7 @@ export default function LoginCard({ validationErrors, error, handleLogin, isPend
             variant='flat'
             disabled={isPending}
           >
-            { isPending ? 'Loggin In...' : 'Log In' }
+            { isPending ? 'Logging In...' : 'Log In' }
           </Button>
         </form>
       </CardBody>
