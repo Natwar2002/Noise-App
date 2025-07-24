@@ -19,7 +19,7 @@ export default function SwitchButton() {
   };
 
   return (
-    <button onClick={toggleTheme} className="cursor-pointer hover:text-blue-600">
+    <button onClick={toggleTheme} className="cursor-pointer hover:text-red-500">
       {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
     </button>
   );

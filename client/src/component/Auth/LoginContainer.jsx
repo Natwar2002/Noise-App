@@ -12,8 +12,7 @@ export default function LoginContainer() {
     const [validationErrors, setValidationErrors] = useState(null);
     const { isPending, isSuccess, error, signinMutation } = useSignin();
 
-    async function handleLogin() {
-        console.log(loginForm);   
+    async function handleLogin() {  
         if( !loginForm.username || !loginForm.password) {
             setValidationErrors({
                 username: !loginForm.username ? "Username is required" : "",
