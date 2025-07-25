@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 
 const dmSchema = new mongoose.Schema({
-    sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-    }
+    participants: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
+    ]
 }, { timestamps: true });
+
+dmSchema.path('participants').validate(function (val) {
+    return val.length === 2;
+}, 'DM must have exactly two participants');
 
 const DM = mongoose.model('DM', dmSchema);
 export default DM;

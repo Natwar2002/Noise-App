@@ -1,6 +1,5 @@
 import { NEW_MESSAGE_EVENT, NEW_MESSAGE_RECEIVED_EVENT } from "../utils/constants.js/eventConstants.js";
 import { createMessageService } from '../services/messageService.js';
-import { success } from "zod";
 
 export default function messageHandler(socket, io) {
     socket.on(NEW_MESSAGE_EVENT, async function createMessageHandler(data, cb) {
