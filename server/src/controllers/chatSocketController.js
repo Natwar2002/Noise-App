@@ -1,4 +1,4 @@
-import { JOIN_ROOM } from "../utils/constants.js/eventConstants.js";
+import { JOIN_ROOM } from "../utils/constants/eventConstants.js";
 
 export default function joinRoom(socket) {
     socket.on(JOIN_ROOM, async (data, cb) => {

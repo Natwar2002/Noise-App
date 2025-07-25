@@ -13,6 +13,8 @@ export default function Sidebar() {
     const { dms, isFetching: dmsLoading, error: dmsError } = useGetDms();
     const { groups, isFetching: groupsLoading, error: groupsError } = useGetGroups();
     const [searchQuery, setSearchQuery] = useState('');
+    console.log(dms);
+    
 
     const handleChatSelect = (chat, type) => {
         setSelectedChat(chat, type);
