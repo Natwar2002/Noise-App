@@ -13,7 +13,6 @@ export default function Sidebar() {
     const { dms, isFetching: dmsLoading, error: dmsError } = useGetDms();
     const { groups, isFetching: groupsLoading, error: groupsError } = useGetGroups();
     const [searchQuery, setSearchQuery] = useState('');
-    console.log(dms);
     
 
     const handleChatSelect = (chat, type) => {
@@ -22,9 +21,12 @@ export default function Sidebar() {
 
     const filterDms = (dms) => {
         if (!searchQuery.trim()) return dms;
-        return dms.filter(dm =>
-            dm.otherUser?.username?.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+        return dms.filter(dm => {
+            const otherUser = dm.participants?.find(
+                (user) => user._id !== useChatStore.getState().currentUserId
+            );
+            return otherUser?.username?.toLowerCase().includes(searchQuery.toLowerCase());
+        });
     };
 
     const filterGroups = (groups) => {
@@ -54,7 +56,7 @@ export default function Sidebar() {
 
         const filteredDms = dms ? filterDms(dms) : [];
 
-        if (!dms?.data || dms.data.length === 0) {
+        if (!dms || dms.length === 0) {
             return (
                 <div className="p-4 text-center text-gray-500">
                     <MessageCircle className="mx-auto mb-2 opacity-50" size={32} />
@@ -76,42 +78,47 @@ export default function Sidebar() {
 
         return (
             <div className="space-y-2 p-2">
-                {filteredDms.map((dm) => (
-                    <Card
-                        key={dm._id}
-                        isPressable
-                        className={`cursor-pointer transition-all duration-200 hover:shadow-sm ${
-                            selectedChat?._id === dm._id && useChatStore.getState().selectedChatType === 'dm'
-                                ? 'bg-primary-50 border-primary-200 dark:bg-primary-900/20 shadow-sm'
-                                : 'hover:bg-gray-50 dark:hover:bg-gray-800 border-transparent'
-                        }`}
-                        onPress={() => handleChatSelect(dm, 'dm')}
-                    >
-                        <CardBody className="py-3 px-3">
-                            <div className="flex items-center gap-3">
-                                <Avatar 
-                                    src={dm.otherUser?.avatar} 
-                                    name={dm.otherUser?.username} 
-                                    size="sm"
-                                    icon={<User />}
-                                />
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-medium text-sm truncate">
-                                        {dm.otherUser?.username || 'Unknown User'}
-                                    </p>
-                                    <p className="text-xs text-gray-500 truncate">
-                                        {dm.lastMessage?.content || 'No messages yet'}
-                                    </p>
-                                </div>
-                                {dm.unreadCount > 0 && (
-                                    <div className="bg-primary-500 text-white text-xs rounded-full px-2 py-1 min-w-5 text-center">
-                                        {dm.unreadCount}
+                {filteredDms.map((dm) => {
+                    const otherUser = dm.participants?.find(
+                        (user) => user._id !== useChatStore.getState().currentUserId
+                    );
+                    return (
+                        <Card
+                            key={dm._id}
+                            isPressable
+                            className={`cursor-pointer transition-all w-full duration-200 hover:shadow-sm ${
+                                selectedChat?._id === dm._id && useChatStore.getState().selectedChatType === 'dm'
+                                    ? 'bg-primary-50 border-primary-200 dark:bg-primary-900/20 shadow-sm'
+                                    : 'hover:bg-gray-50 dark:hover:bg-gray-800 border-transparent'
+                            }`}
+                            onPress={() => handleChatSelect(dm, 'dm')}
+                        >
+                            <CardBody className="py-3 px-3">
+                                <div className="flex items-center gap-3">
+                                    <Avatar 
+                                        src={otherUser?.avatar} 
+                                        name={`${otherUser?.firstName} ${otherUser?.lastName}`} 
+                                        size="sm"
+                                        icon={<User />}
+                                    />
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-medium text-sm truncate">
+                                            {`${otherUser?.firstName} ${otherUser?.lastName}`}
+                                        </p>
+                                        {/* <p className="text-xs text-gray-500 truncate">
+                                            {dm.lastMessage?.content || 'No messages yet'}
+                                        </p> */}
                                     </div>
-                                )}
-                            </div>
-                        </CardBody>
-                    </Card>
-                ))}
+                                    {dm.unreadCount > 0 && (
+                                        <div className="bg-primary-500 text-white text-xs rounded-full px-2 py-1 min-w-5 text-center">
+                                            {dm.unreadCount}
+                                        </div>
+                                    )}
+                                </div>
+                            </CardBody>
+                        </Card>
+                    )
+                })}
             </div>
         );
     };
