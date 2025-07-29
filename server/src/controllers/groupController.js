@@ -1,4 +1,4 @@
-import { addUserToGroupService, createGroupService, deleteGroupService, getGroupsService, updateGroupService } from '../services/groupService.js';
+import { addUserToGroupService, createGroupService, deleteGroupService, getGroupService, getGroupsService, updateGroupService } from '../services/groupService.js';
 import { customErrorResponse, internalErrorResponse, successResponse } from '../utils/responses/responseObject.js';
 
 export const createGroupController = async (req, res) => {
@@ -68,6 +68,19 @@ export const addUserToGroupController = async (req, res) => {
         return res.status(200).json(successResponse(updatedGroup, "User added to group successfully"));
     } catch (error) {
         console.log("Error in add user to group controller: ", error);
+        if (error.status) {
+            return res.status(error.status).json(customErrorResponse(error));
+        }
+        return res.status(500).json(internalErrorResponse(error));
+    }
+}
+
+export const getGroupByIdController = async (req, res) => {
+    try {
+        const response = await getGroupService(req.params.groupId);
+        return res.status(200).json(successResponse(response, "Group fetched successfully"));
+    } catch (error) {
+        console.log("Error in get Group By ID controller: ", error);
         if (error.status) {
             return res.status(error.status).json(customErrorResponse(error));
         }

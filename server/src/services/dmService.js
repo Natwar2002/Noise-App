@@ -35,3 +35,20 @@ export const createDMService = async (sender, receiver) => {
         throw error;
     }
 }
+
+export const getDmById = async (dmId) => {
+    try {
+        if (!dmId) {
+            throw new ClientError({
+                message: "dm ID is required",
+                explanation: "You must provide dm ID to fetch DM",
+                status: 400
+            });
+        }
+        const groups = await dmRepository.getById(dmId);
+        return groups;
+    } catch (error) {
+        console.log("Error in get dm by id service: ", error);
+        throw error;
+    }
+}

@@ -131,3 +131,20 @@ export const addUserToGroupService = async (groupId, userId, adminId) => {
         throw error;
     }
 }
+
+export const getGroupService = async (groupId) => {
+    try {
+        if (!groupId) {
+            throw new ClientError({
+                message: "Group ID is required",
+                explanation: "You must provide group ID to fetch group",
+                status: 400
+            });
+        }
+        const groups = await groupRepository.getById(groupId);
+        return groups;
+    } catch (error) {
+        console.log("Error in get group by id service: ", error);
+        throw error;
+    }
+}
