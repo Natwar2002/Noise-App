@@ -1,7 +1,7 @@
 import ClientError from "../utils/erros/clientError.js";
 import messageRepository from '../repositories/messageRepository.js';
 
-export const getMessagesService = async (messageParams) => {
+export const getMessagesService = async (messageParams, page, limit) => {
     try {
         if (!messageParams) {
             throw new ClientError({
@@ -10,8 +10,6 @@ export const getMessagesService = async (messageParams) => {
                 status: 404
             });
         }
-        const page = 1;
-        const limit = 20;
         const messages = await messageRepository.getMessages(messageParams, page, limit)
         return messages;
     } catch (error) {

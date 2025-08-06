@@ -8,13 +8,16 @@ import joinRoom from './controllers/chatSocketController.js';
 import cors from 'cors';
 
 const app = express();
+const server = createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: '*'
+    }
+});
 
 app.use(cors({
     origin: "*"
 }));
-
-const server = createServer(app);
-const io = new Server(server);
 
 app.use(express.json());
 app.use(express.text());

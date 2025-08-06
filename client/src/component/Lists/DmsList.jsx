@@ -1,15 +1,22 @@
+import { useState } from "react";
 import { useGetDms } from "../../hooks/apis/useGetDms";
 import useChatStore from "../../store/chatStore";
 import { Avatar, Card, CardBody,  } from '@heroui/react';
 import { LucideLoaderCircle, Search, TriangleAlert, User } from "lucide-react";
+import { useGetDMsMessages } from "../../hooks/apis/useGetDMsMessages";
 
 export default function RenderDmsList() {
 
     const { dms, isFetching: dmsLoading, error: dmsError } = useGetDms();
     const { selectedChat, setSelectedChat } = useChatStore();
+    const [chatId, setChatId] = useState('');
+
+    const { messages } = useGetDMsMessages(chatId, { enabled: !!chatId });
+    console.log("messages", messages);
 
     const handleChatSelect = (chat, type) => {
         setSelectedChat(chat, type);
+        setChatId(chat._id);
     };
 
     if (dmsLoading) {
